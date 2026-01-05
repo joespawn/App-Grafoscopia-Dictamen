@@ -1,0 +1,7 @@
+{
+  "name": "Gemini Workspace",
+  "description": "A modular AI workspace featuring text chat and visual analysis capabilities using the latest Gemini models. Designed to be easily extensible for your existing code.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
