@@ -12,14 +12,42 @@
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
+        background: transparent; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
+        background: rgba(255, 255, 255, 0.5); 
         border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
+        background: rgba(255, 255, 255, 0.8); 
+      }
+      
+      /* Global Glass Styles */
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      }
+      
+      .glass-card {
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      }
+
+      .glass-input {
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(4px);
+      }
+      .glass-input:focus {
+        background: rgba(255, 255, 255, 0.8);
+        border-color: rgba(99, 102, 241, 0.5);
       }
     </style>
   <script type="importmap">
@@ -33,7 +61,12 @@
 }
 </script>
 </head>
-  <body class="bg-slate-50 text-slate-900 antialiased">
-    <div id="root"></div>
+  <!-- Modern Gradient Background -->
+  <body class="bg-fixed bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 text-slate-800 antialiased selection:bg-pink-300 selection:text-pink-900 h-screen w-screen overflow-hidden">
+    <!-- Ambient background blobs -->
+    <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-400/20 blur-[100px] pointer-events-none z-[-1]"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-400/20 blur-[100px] pointer-events-none z-[-1]"></div>
+    
+    <div id="root" class="h-full w-full"></div>
   </body>
 </html>

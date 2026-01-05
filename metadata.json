@@ -1,6 +1,6 @@
 {
-  "name": "Gemini Workspace",
-  "description": "A modular AI workspace featuring text chat and visual analysis capabilities using the latest Gemini models. Designed to be easily extensible for your existing code.",
+  "name": "Dictamen Pericial Grafoscopia y Documentoscopia Completo",
+  "description": "Es una aplicación para realizar el dictamen pericial en Grafoscopía y Documentoscopía, y todo lo que se necesita esencialmente",
   "requestFramePermissions": [
     "microphone"
   ]
