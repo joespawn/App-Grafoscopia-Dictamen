@@ -161,8 +161,14 @@ const App: React.FC = () => {
   return (
     <div className="flex h-screen w-screen overflow-hidden font-sans">
       
-      {/* Mobile Header - Glassmorphism */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white/10 backdrop-blur-xl border-b border-white/20 z-40 flex items-center px-4 shadow-lg">
+      {/* Mobile Header - Glassmorphism with Safe Area support */}
+      <div 
+        className="md:hidden fixed top-0 left-0 right-0 bg-white/10 backdrop-blur-xl border-b border-white/20 z-40 flex items-center px-4 shadow-lg"
+        style={{ 
+          height: 'calc(4rem + env(safe-area-inset-top))', 
+          paddingTop: 'env(safe-area-inset-top)' 
+        }}
+      >
         <button 
           onClick={() => setIsSidebarOpen(true)}
           className="text-slate-800 p-2 hover:bg-white/20 rounded-lg transition-colors"
@@ -186,7 +192,12 @@ const App: React.FC = () => {
       />
 
       {/* Main Content Area - Transparent to show body gradient */}
-      <main className="flex-1 h-full relative pt-16 md:pt-0 w-full overflow-hidden">
+      <main 
+        className="flex-1 h-full relative w-full overflow-hidden"
+        style={{
+          paddingTop: window.innerWidth < 768 ? 'calc(4rem + env(safe-area-inset-top))' : '0'
+        }}
+      >
         {renderContent()}
       </main>
     </div>
