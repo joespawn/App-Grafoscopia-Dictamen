@@ -1,7 +1,7 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { Message } from '../types';
 
-// Initialize the client with the API key from the environment
+// La API Key se inyecta a través de la configuración de Vite (define: process.env.API_KEY)
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 /**
@@ -12,16 +12,10 @@ export const sendChatMessage = async (
   history: Message[]
 ): Promise<string> => {
   try {
-    // We strictly use the model name defined in the guidelines for complex text tasks
+    // Usamos gemini-3-flash-preview para tareas de texto rápidas y eficientes
     const modelId = 'gemini-3-flash-preview'; 
     
-    // Construct the chat history formatted for the API if needed, 
-    // or just send the current prompt with context. 
-    // For simplicity in this stateless service, we'll concatenate a simple context 
-    // or use the generateContent method directly.
-    
-    // In a real production app, you might maintain a ChatSession object.
-    const prompt = `
+    const context = `
       History:
       ${history.map(m => `${m.role}: ${m.text}`).join('\n')}
       
@@ -30,18 +24,16 @@ export const sendChatMessage = async (
 
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: modelId,
-      contents: prompt,
+      contents: context,
       config: {
-        systemInstruction: "You are a helpful, senior-level engineering assistant. Be concise and precise.",
+        systemInstruction: "Eres un asistente experto en Grafoscopía y Documentoscopía forense. Ayuda al perito a redactar secciones técnicas, corregir ortografía y sugerir bibliografía. Mantén un tono profesional y jurídico.",
       }
     });
 
-    // Access .text directly as a property
-    const text = response.text;
-    return text || "No response generated.";
+    return response.text || "No se generó respuesta.";
   } catch (error) {
     console.error("Chat Error:", error);
-    return "I encountered an error processing your request.";
+    return "Error al conectar con la IA. Por favor verifica que tu API KEY esté configurada en el archivo .env.";
   }
 };
 
@@ -53,10 +45,8 @@ export const analyzeImageWithGemini = async (
   prompt: string
 ): Promise<string> => {
   try {
-    // Remove data URL prefix if present (e.g., "data:image/png;base64,")
     const cleanBase64 = base64Image.split(',')[1] || base64Image;
-
-    // Using the flash image model for general tasks as per guidelines
+    // Usamos gemini-2.5-flash-image para análisis visual general
     const modelId = 'gemini-2.5-flash-image';
 
     const response: GenerateContentResponse = await ai.models.generateContent({
@@ -65,20 +55,20 @@ export const analyzeImageWithGemini = async (
         parts: [
           {
             inlineData: {
-              mimeType: 'image/jpeg', // Assuming JPEG for simplicity, or detect from header
+              mimeType: 'image/jpeg',
               data: cleanBase64
             }
           },
           {
-            text: prompt || "Describe this image in detail."
+            text: prompt || "Analiza esta imagen desde una perspectiva forense documental. Describe trazos, presión y posibles alteraciones."
           }
         ]
       }
     });
 
-    return response.text || "Could not analyze the image.";
+    return response.text || "No se pudo analizar la imagen.";
   } catch (error) {
     console.error("Vision Error:", error);
-    return "Failed to analyze the image. Please try again.";
+    return "Error en el análisis visual. Revisa el formato de la imagen o tu conexión.";
   }
 };

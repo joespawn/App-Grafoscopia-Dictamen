@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatView from './components/ChatView';
 import VisionView from './components/VisionView';
@@ -26,39 +26,60 @@ import GraphokineticAnalysisView from './components/GraphokineticAnalysisView';
 import GeneralStructuralAnalysisView from './components/GeneralStructuralAnalysisView';
 import { AppView, ReportData } from './types';
 
+// Estado inicial por defecto
+const INITIAL_REPORT_DATA: ReportData = {
+  court: '',
+  plaintiff: '',
+  defendantName: '',
+  trialType: '',
+  fileNumber: '',
+  
+  // Document Details
+  docDescription: 'Impresión Offset',
+  questionedDocCount: 1,
+  questionedDocDate: '',
+  questionedDocPhoto: null,
+
+  // Undisputed Document Details
+  undisputedDocPages: 0,
+  undisputedDocDate: '',
+  courtAddress: '',
+  undisputedDocFolio: '',
+
+  expertiseSubjects: 'Grafoscopía y Documentoscopía',
+  selectedSubjects: ['Grafoscopía', 'Documentoscopía'], // Default selections
+  sampleDate: '',
+  expertName: '',
+  
+  hypothesis: null,
+  plaintiffQuestions: [], 
+  defendantQuestions: []  
+};
+
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<AppView>(AppView.CHAT);
+  const [currentView, setCurrentView] = useState<AppView>(AppView.GENERAL_DATA);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
   
-  // Shared state for the Forensic Report
-  const [reportData, setReportData] = useState<ReportData>({
-    court: '',
-    plaintiff: '',
-    defendantName: '',
-    trialType: '',
-    fileNumber: '',
-    
-    // Document Details
-    docDescription: 'Impresión Offset',
-    questionedDocCount: 1,
-    questionedDocDate: '',
-    questionedDocPhoto: null,
-
-    // Undisputed Document Details
-    undisputedDocPages: 0,
-    undisputedDocDate: '',
-    courtAddress: '',
-    undisputedDocFolio: '',
-
-    expertiseSubjects: 'Grafoscopía y Documentoscopía',
-    selectedSubjects: ['Grafoscopía', 'Documentoscopía'], // Default selections
-    sampleDate: '',
-    expertName: '',
-    
-    hypothesis: null,
-    plaintiffQuestions: [], 
-    defendantQuestions: []  
+  // Shared state for the Forensic Report with Persistence logic
+  const [reportData, setReportData] = useState<ReportData>(() => {
+    // Intentar cargar datos guardados al iniciar
+    try {
+      const savedData = localStorage.getItem('forensicReportData');
+      return savedData ? JSON.parse(savedData) : INITIAL_REPORT_DATA;
+    } catch (e) {
+      console.error("Error loading saved data", e);
+      return INITIAL_REPORT_DATA;
+    }
   });
+
+  // Guardar en localStorage cada vez que reportData cambie
+  useEffect(() => {
+    try {
+      localStorage.setItem('forensicReportData', JSON.stringify(reportData));
+    } catch (e) {
+      console.error("Error saving data", e);
+    }
+  }, [reportData]);
 
   const renderContent = () => {
     switch (currentView) {
@@ -113,20 +134,27 @@ const App: React.FC = () => {
       case AppView.SETTINGS:
         return (
           <div className="p-4 md:p-8 flex flex-col h-full overflow-y-auto">
-            <h2 className="text-2xl font-bold mb-4 text-slate-800">Settings</h2>
+            <h2 className="text-2xl font-bold mb-4 text-slate-800">Configuración</h2>
             <div className="glass-panel p-6 rounded-2xl">
-              <p className="text-slate-700">
-                You can extend this application by adding your existing code here.
-                The structure is modular, allowing you to plug in new views in <code>App.tsx</code>.
+              <p className="text-slate-700 mb-4">
+                Opciones de la aplicación.
               </p>
-              <div className="mt-4 p-4 bg-blue-50/50 border border-blue-200/50 text-blue-800 rounded-lg text-sm backdrop-blur-sm">
-                <strong>Tip:</strong> Create a new component for your existing code and import it here.
-              </div>
+              <button 
+                onClick={() => {
+                  if(confirm('¿Estás seguro de borrar todos los datos del dictamen? Esta acción no se puede deshacer.')) {
+                    setReportData(INITIAL_REPORT_DATA);
+                    localStorage.removeItem('forensicReportData');
+                  }
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                Borrar todos los datos y reiniciar
+              </button>
             </div>
           </div>
         );
       default:
-        return <ChatView />;
+        return <GeneralDataView data={reportData} onUpdate={setReportData} />;
     }
   };
 

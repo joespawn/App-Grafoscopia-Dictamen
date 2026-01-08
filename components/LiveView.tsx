@@ -116,12 +116,12 @@ const LiveView: React.FC = () => {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
       const sessionPromise = ai.live.connect({
-        model: 'gemini-2.5-flash-native-audio-preview-09-2025',
+        model: 'gemini-2.5-flash-native-audio-preview-12-2025',
         config: {
           responseModalities: [Modality.AUDIO],
           // Enable transcription for both input and output
-          inputAudioTranscription: { model: "gemini-2.5-flash-native-audio-preview-09-2025" },
-          outputAudioTranscription: { model: "gemini-2.5-flash-native-audio-preview-09-2025" },
+          inputAudioTranscription: {},
+          outputAudioTranscription: {},
           speechConfig: {
             voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } },
           },
