@@ -1,8 +1,20 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { Message } from '../types';
 
-// La API Key se inyecta a través de la configuración de Vite (define: process.env.API_KEY)
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+let aiClient: GoogleGenAI | null = null;
+
+const getClient = () => {
+  if (!apiKey) {
+    throw new Error("Falta configurar VITE_GEMINI_API_KEY en el entorno.");
+  }
+
+  if (!aiClient) {
+    aiClient = new GoogleGenAI({ apiKey });
+  }
+
+  return aiClient;
+};
 
 /**
  * Sends a chat message to the Gemini model.
@@ -12,6 +24,7 @@ export const sendChatMessage = async (
   history: Message[]
 ): Promise<string> => {
   try {
+    const ai = getClient();
     // Usamos gemini-3-flash-preview para tareas de texto rápidas y eficientes
     const modelId = 'gemini-3-flash-preview'; 
     
@@ -33,7 +46,7 @@ export const sendChatMessage = async (
     return response.text || "No se generó respuesta.";
   } catch (error) {
     console.error("Chat Error:", error);
-    return "Error al conectar con la IA. Por favor verifica que tu API KEY esté configurada en el archivo .env.";
+    return "Error al conectar con la IA. Por favor verifica que VITE_GEMINI_API_KEY esté configurada en el archivo .env.local.";
   }
 };
 
@@ -45,6 +58,7 @@ export const analyzeImageWithGemini = async (
   prompt: string
 ): Promise<string> => {
   try {
+    const ai = getClient();
     const cleanBase64 = base64Image.split(',')[1] || base64Image;
     // Usamos gemini-2.5-flash-image para análisis visual general
     const modelId = 'gemini-2.5-flash-image';

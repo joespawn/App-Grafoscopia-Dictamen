@@ -1,20 +1,16 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => {
-  // Carga las variables de entorno desde el archivo .env
-  const env = loadEnv(mode, '.', '');
+export default defineConfig(() => {
+  const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 
-  return {
-    base: './', // CRITICO: Esto permite que la app funcione en cualquier carpeta
-    plugins: [react()],
-    define: {
-      'process.env.API_KEY': JSON.stringify(env.API_KEY)
-    },
-    build: {
-      outDir: 'dist',
-      sourcemap: false,
-      chunkSizeWarningLimit: 1600,
-    }
-  };
+  return ({
+    base: isGitHubPages ? '/App-Grafoscopia-Dictamen/' : './', // CRITICO: Esto permite que la app funcione en cualquier carpeta
+  plugins: [react()],
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    chunkSizeWarningLimit: 1600,
+  }
+  });
 });
