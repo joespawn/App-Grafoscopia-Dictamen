@@ -95,6 +95,13 @@ const LiveView: React.FC = () => {
 
   const startSession = async () => {
     try {
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      if (!apiKey) {
+        setStatus('Falta VITE_GEMINI_API_KEY en .env.local');
+        setIsActive(false);
+        return;
+      }
+
       setStatus('Initializing Audio...');
       setTranscripts([]);
       
@@ -113,7 +120,7 @@ const LiveView: React.FC = () => {
 
       setStatus('Connecting to Gemini...');
 
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
 
       const sessionPromise = ai.live.connect({
         model: 'gemini-2.5-flash-native-audio-preview-12-2025',
