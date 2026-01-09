@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap');
+        
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f4f8; color: #334155; }
+        h1, h2, h3, h4, .serif-text { font-family: 'Merriweather', serif; }
+
+        /* --- MATERIAL DESIGN SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* --- SIDEBAR STYLES --- */
+        .sidebar-gradient {
+            background: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);
+        }
+        
+        .chapter-btn {
+            border-radius: 0 50px 50px 0;
+            margin-right: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chapter-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #bfdbfe;
+            padding-left: 2rem;
+        }
+
+        .chapter-btn.active {
+            background-color: #3b82f6; /* Blue 500 */
+            color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5);
+        }
+
+        /* --- PDF PRINT STYLES --- */
+        #pdf-template {
+            padding: 2.5cm;
+            background: white;
+            color: black;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.5;
+            display: none;
+            text-align: justify;
+        }
+        .pdf-section { margin-bottom: 20px; }
+        .pdf-title { font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #1e3a8a; color: #1e3a8a; margin-bottom: 15px; padding-bottom: 2px; font-size: 11pt; }
+        
+        /* Table Styles for PDF */
+        .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 9pt; }
+        .pdf-table th { border: 1px solid #1e3a8a; background-color: #e0e7ff; color: #1e3a8a; padding: 6px; }
+        .pdf-table td { border: 1px solid #cbd5e1; padding: 6px; }
+
+        /* --- CARDS & BOXES --- */
+        .material-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            transition: transform 0.2s ease;
+        }
+
+        .placeholder-highlight { color: #2563eb; font-weight: bold; border-bottom: 1px dashed #2563eb; background-color: #eff6ff; padding: 0 4px; border-radius: 4px; }
+        
+        /* --- CHECKBOXES --- */
+        .checkbox-materias:checked + label { 
+            background-color: #1e40af;
+            color: white; 
+            border-color: #1e40af; 
+            box-shadow: 0 4px 6px rgba(30, 64, 175, 0.4);
+            transform: translateY(-2px);
+        }
+        .checkbox-materias + label { transition: all 0.2s; }
+
+        .question-item {
+            display: flex; align-items: flex-start; background: #f8fafc; padding: 1rem; border-radius: 0.75rem; margin-bottom: 0.5rem; border-left: 4px solid #3b82f6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .chart-container { position: relative; width: 100%; height: 350px; }
+        
+        /* --- SLIDERS CUSTOM STYLES --- */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        
+        /* CUESTIONADA (ROJO) */
+        .range-cuestionada input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px; width: 18px; border-radius: 50%;
+            background: #dc2626; /* Red 600 */
+            cursor: pointer; margin-top: -7px;
+            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.4);
+            transition: transform 0.1s;
+        }
+        .range-cuestionada input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; cursor: pointer;
+            background: #fecaca; /* Red 200 */
+            border-radius: 2px;
+        }
+
+        /* INDUBITABLE (AZUL) */
+        .range-indubitable input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px; width: 18px; border-radius: 50%;
+            background: #2563eb; /* Blue 600 */
+            cursor: pointer; margin-top: -7px;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.4);
+            transition: transform 0.1s;
+        }
+        .range-indubitable input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; cursor: pointer;
+            background: #bfdbfe; /* Blue 200 */
+            border-radius: 2px;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+        .sub-section-title { font-weight: bold; color: #1e3a8a; border-left: 4px solid #3b82f6; padding-left: 12px; margin: 2rem 0 1rem 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; }
+
+        /* Animation for recording */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .recording-pulse {
+            animation: pulse-red 1.5s infinite;
+            color: #dc2626 !important;
+        }
+
+        /* SVG Containers */
+        .infografia-container {
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+        .infografia-caption {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 8px;
+            border-top: 1px solid #e2e8f0;
+            font-weight: 500;
+        }
+
+        /* Photo Upload Styling */
+        .photo-upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            background-color: #f8fafc;
+            transition: all 0.2s;
+            cursor: pointer;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .photo-upload-zone:hover { border-color: #3b82f6; background-color: #eff6ff; }
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; width: 100%; margin-top: 10px; }
+        .photo-thumb { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+
+
+/* =========================================================
+   Glassmorphism Theme (global)
+   Activate by adding class="glass" to <body>
+   ========================================================= */
+
+body.glass{
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(56,189,248,0.22), transparent 60%),
+    radial-gradient(900px 500px at 90% 20%, rgba(99,102,241,0.22), transparent 55%),
+    radial-gradient(900px 600px at 40% 90%, rgba(236,72,153,0.18), transparent 60%),
+    linear-gradient(135deg, rgba(2,6,23,1), rgba(15,23,42,1));
+  color: #e2e8f0;
+}
+
+/* Subtle noise (optional; safe fallback if unsupported) */
+body.glass::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Core glass surfaces */
+body.glass .bg-white,
+body.glass .bg-slate-50,
+body.glass .bg-slate-100{
+  background: rgba(255,255,255,0.10) !important;
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid rgba(148,163,184,0.22) !important;
+}
+
+body.glass .shadow,
+body.glass .shadow-sm,
+body.glass .shadow-md,
+body.glass .shadow-lg,
+body.glass .shadow-xl{
+  box-shadow: 0 10px 30px rgba(0,0,0,0.30) !important;
+}
+
+/* Sidebar / top bars */
+body.glass aside{
+  background: rgba(2,6,23,0.45) !important;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-right: 1px solid rgba(148,163,184,0.18);
+}
+
+body.glass header,
+body.glass nav{
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* Typography harmonization (override common Tailwind text utilities used in the app) */
+body.glass .text-slate-900{ color:#f1f5f9 !important; }
+body.glass .text-slate-800{ color:#e2e8f0 !important; }
+body.glass .text-slate-700{ color:#cbd5e1 !important; }
+body.glass .text-slate-600{ color:#94a3b8 !important; }
+body.glass .text-slate-500{ color:#94a3b8 !important; }
+body.glass .border-slate-200{ border-color: rgba(148,163,184,0.22) !important; }
+body.glass .border-slate-300{ border-color: rgba(148,163,184,0.28) !important; }
+
+/* Inputs */
+body.glass input,
+body.glass textarea,
+body.glass select{
+  background: rgba(2,6,23,0.35) !important;
+  border: 1px solid rgba(148,163,184,0.22) !important;
+  color: #e2e8f0 !important;
+}
+body.glass input::placeholder,
+body.glass textarea::placeholder{
+  color: rgba(226,232,240,0.55) !important;
+}
+body.glass input:focus,
+body.glass textarea:focus,
+body.glass select:focus{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(56,189,248,0.18) !important;
+  border-color: rgba(56,189,248,0.35) !important;
+}
+
+/* Buttons (general) */
+body.glass button{
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+
+/* Keep PDF output clean (no glass) */
+body.glass .pdf-title,
+body.glass .pdf-section,
+body.glass .pdf-table{
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}

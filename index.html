@@ -46,7 +46,7 @@
         border-color: rgba(99, 102, 241, 0.5);
       }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
@@ -59,6 +59,7 @@
   }
 }
 </script>
+<link rel="stylesheet" href="/index.css">
 </head>
   <body class="bg-fixed bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 text-slate-800 antialiased h-screen w-screen overflow-hidden">
     <div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-400/20 blur-[100px] pointer-events-none z-[-1]"></div>
@@ -66,5 +67,6 @@
     
     <div id="root" class="h-full w-full"></div>
     <script type="module" src="./index.tsx"></script>
-  </body>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>
