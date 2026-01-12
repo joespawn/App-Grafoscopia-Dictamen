@@ -1,8 +1,9 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { Message } from '../types';
 
-// La API Key se inyecta a través de la configuración de Vite (define: process.env.API_KEY)
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// La API Key se inyecta a través de Vite usando la variable VITE_API_KEY
+const apiKey = import.meta.env.VITE_API_KEY;
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 /**
  * Sends a chat message to the Gemini model.
@@ -11,6 +12,10 @@ export const sendChatMessage = async (
   currentMessage: string,
   history: Message[]
 ): Promise<string> => {
+  if (!ai) {
+    return "La IA no está configurada. Agrega la variable VITE_API_KEY en tu archivo .env para habilitar el chat.";
+  }
+
   try {
     // Usamos gemini-3-flash-preview para tareas de texto rápidas y eficientes
     const modelId = 'gemini-3-flash-preview'; 
@@ -44,6 +49,10 @@ export const analyzeImageWithGemini = async (
   base64Image: string,
   prompt: string
 ): Promise<string> => {
+  if (!ai) {
+    return "La IA no está configurada. Agrega la variable VITE_API_KEY en tu archivo .env para habilitar el análisis visual.";
+  }
+
   try {
     const cleanBase64 = base64Image.split(',')[1] || base64Image;
     // Usamos gemini-2.5-flash-image para análisis visual general
