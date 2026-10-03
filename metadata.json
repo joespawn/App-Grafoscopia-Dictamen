@@ -1,8 +1,1 @@
-{
-  "name": "Dictamen Pericial Grafoscopia y Documentoscopia Completo",
-  "description": "Es una aplicación para realizar el dictamen pericial en Grafoscopía y Documentoscopía, y todo lo que se necesita esencialmente",
-  "requestFramePermissions": [
-    "microphone",
-    "camera"
-  ]
-}
+{"name":"Dictamen Pericial Grafoscopia y Documentoscopia Completo","description":"Es una aplicación para realizar el dictamen pericial en Grafoscopía y Documentoscopía, y todo lo que se necesita esencialmente","requestFramePermissions":["microphone","camera"],"majorCapabilities":["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]}

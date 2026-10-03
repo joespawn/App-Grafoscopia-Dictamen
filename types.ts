@@ -40,11 +40,49 @@ export interface VisionState {
   loading: boolean;
 }
 
+export interface TableRow {
+  aspect: string;
+  indubitable: string;
+  dubitable: string;
+  observations: string;
+}
+
+export interface StructuralAnalysisData {
+  questionedImages: string[];
+  undisputedImages: string[];
+  dictamen: string;
+  tableRows: TableRow[];
+}
+
+export interface MicroscopicAnalysisData {
+  momentosQuestionedImages: string[];
+  momentosUndisputedImages: string[];
+  momentosAnalysisText: string;
+  inclinationQuestionedImages: string[];
+  inclinationUndisputedImages: string[];
+  inclinationAnalysisText: string;
+  developmentQuestionedImages: string[];
+  developmentUndisputedImages: string[];
+  developmentAnalysisText: string;
+}
+
+export interface ComparisonAnalysisData {
+  questionedImages: string[];
+  undisputedImages: string[];
+  analysisText: string;
+}
+
+export interface DocumentoscopyData {
+  questionedImages: string[];
+  undisputedImages: string[];
+  dictamen: string;
+}
+
 export interface ReportData {
-  // Nuevos campos solicitados
+  // Datos Identificativos Básicos
   court: string; // [Juzgado o Tribunal]
   plaintiff: string; // [Datos del Actor]
-  defendantName: string; // [Datos del Demandado] (Mantenemos el nombre de variable para compatibilidad)
+  defendantName: string; // [Datos del Demandado]
   trialType: string; // [Tipo de Juicio]
   fileNumber: string; // [Número de Expediente]
   
@@ -54,19 +92,28 @@ export interface ReportData {
   questionedDocDate: string; // [Fecha del documento cuestionado]
   questionedDocPhoto: string | null; // [Fotografía Documento Cuestionado]
 
-  // Detalles del Documento Indubitable (NUEVO)
+  // Detalles del Documento Indubitable
   undisputedDocPages: number; // [Número de páginas]
   undisputedDocDate: string; // [Fecha de firmas indubitables]
   courtAddress: string; // [Domicilio del Juzgado]
   undisputedDocFolio: string; // [Foja donde se localiza]
 
-  expertiseSubjects: string; // [Materias del Dictamen] - Texto libre (Legacy)
-  selectedSubjects: string[]; // Nuevo: Lista de materias seleccionadas (Checklist)
+  expertiseSubjects: string; // [Materias del Dictamen]
+  selectedSubjects: string[]; // Lista de materias seleccionadas
   sampleDate: string; // [Fecha de Toma de Muestra]
   expertName: string; // [Nombre del Perito]
   
-  // Campos existentes de lógica
+  // Determinación Pericial / Hipótesis
   hypothesis: 'A' | 'B' | 'C' | null; // A: Auténtica, B: Falsa, C: Imposibilidad
   plaintiffQuestions: string[]; // [Interrogatorio Parte Actora]
   defendantQuestions: string[]; // [Interrogatorio parte demandada]
+  
+  // Datos Técnicos Persistentes de los Capítulos
+  structuralAnalysis?: StructuralAnalysisData;
+  microscopicAnalysis?: MicroscopicAnalysisData;
+  graphokineticAnalysis?: ComparisonAnalysisData;
+  generalStructuralAnalysis?: ComparisonAnalysisData;
+  integralAnalysis?: ComparisonAnalysisData;
+  documentoscopyData?: DocumentoscopyData;
+  questioningAnswers?: Record<string, string>; // p-0, d-0, etc.
 }
